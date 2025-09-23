@@ -1,0 +1,46 @@
+{
+  "name": "selected-lines-status",
+  "displayName": "行数选择计数",
+  "publisher": "chengbin",
+  "description": "在状态栏显示当前选中的行数（支持多选区域）",
+  "version": "1.0.2",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:selectedLinesStatus.showCount"
+  ],
+  "main": "extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "selectedLinesStatus.showCount",
+        "title": "显示已选择行数"
+      }
+    ]
+  },
+  "keywords": [
+    "selected",
+    "lines",
+    "status",
+    "count",
+    "editor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZhenHena/vscode-selected-lines-status"
+  },
+  "bugs": {
+    "url": "https://github.com/ZhenHena/vscode-selected-lines-status/issues"
+  },
+  "homepage": "https://www.3578.cn",
+  "icon": "images/icon.png",
+  "devDependencies": {
+    "vscode": "^1.1.41"
+  }
+}

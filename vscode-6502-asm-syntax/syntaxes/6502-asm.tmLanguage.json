@@ -1,0 +1,234 @@
+{
+  "scopeName": "source.6502-asm",
+  "name": "6502 Assembly",
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#todoComment" },
+    { "include": "#string" },
+    { "include": "#instruction" },
+    { "include": "#directive" },
+    { "include": "#register" },
+    { "include": "#immediate" },
+    { "include": "#addressingFine" },
+    { "include": "#number" },
+    { "include": "#localLabel" },
+  { "include": "#anonLabel" },
+  { "include": "#symbolAssign" },
+  { "include": "#macro" },
+  { "include": "#condition" },
+  { "include": "#expressionOp" },
+  { "include": "#macroParam" },
+  { "include": "#dataLabelNoColon" },
+  { "include": "#symbolRef" },
+  { "include": "#ca65Macro" },
+  { "include": "#ca65MacroRange" },
+  
+  { "include": "#label" }
+  ],
+  "repository": {
+    "comment": {
+      "patterns": [
+        { "name": "comment.line.semicolon.6502-asm", "match": ";.*$" }
+      ]
+    },
+    "instruction": {
+      "patterns": [
+        {
+          "name": "keyword.control.6502-asm",
+          "match": "\\b(?i:ADC|AND|ASL|BCC|BCS|BEQ|BIT|BMI|BNE|BPL|BRK|BVC|BVS|CLC|CLD|CLI|CLV|CMP|CPX|CPY|DEC|DEX|DEY|EOR|INC|INX|INY|JMP|JSR|LDA|LDX|LDY|LSR|NOP|ORA|PHA|PHP|PLA|PLP|ROL|ROR|RTI|RTS|SBC|SEC|SED|SEI|STA|STX|STY|TAX|TAY|TSX|TXA|TXS|TYA)\\b"
+        }
+      ]
+    },
+    "directive": {
+      "patterns": [
+        { "name": "keyword.directive.6502-asm", "match": "(?i)\\b(ORG|END|EQU|DB|DW|DS|BYTE|WORD|RESB|RESW|INCLUDE|MACRO|ENDM|IF|ELSE|ENDIF|REPT|IRP|IRPC|LOCAL|PUBLIC|EXTERN|SEGMENT|ASSUME|GROUP|PROC|ENDP|LABEL|CODE|DATA|CONST|ALIGN|SECTION|GLOBAL|EXPORT|IMPORT|DEFINE|SET)\\b" },
+        { "name": "keyword.directive.cc65.6502-asm", "match": "(?i)\\b(\\.byte|\\.word|\\.proc|\\.endproc|\\.segment|\\.import|\\.export|\\.incbin|\\.include|\\.res|\\.org|\\.asciiz|\\.ascii|\\.addr|\\.code|\\.data)\\b" }
+      ]
+    },
+    "register": {
+      "patterns": [
+        {
+          "name": "variable.language.register.6502-asm",
+          "match": "\\b(A|X|Y|SP|PC)\\b"
+        }
+      ]
+    },
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.6502-asm",
+          "match": "(\\$[0-9A-Fa-f]+|0x[0-9A-Fa-f]+|%[01]+|\\b[0-9]+[Hh]?\\b)"
+        }
+      ]
+    },
+    "immediate": {
+      "patterns": [
+        {
+          "name": "constant.language.immediate.6502-asm",
+          "match": "#(\\$[0-9A-Fa-f]+|0x[0-9A-Fa-f]+|%[01]+|[0-9]+)"
+        }
+      ]
+    },
+    "string": {
+      "patterns": [
+        { "name": "string.quoted.double.6502-asm", "begin": "\"", "end": "\"", "patterns": [{"match": "\\\\.", "name": "constant.character.escape.6502-asm"}] },
+        { "name": "string.quoted.single.6502-asm", "begin": "'", "end": "'", "patterns": [{"match": "\\\\.", "name": "constant.character.escape.6502-asm"}] }
+      ]
+    },
+    "todoComment": {
+      "patterns": [
+        { "name": "comment.todo.6502-asm", "match": ";.*?(?i)(TODO|FIXME|NOTE|HACK).*" }
+      ]
+    },
+    "localLabel": {
+      "patterns": [
+        { "name": "entity.name.label.local.6502-asm", "match": "^\\s*\\.[A-Za-z_][A-Za-z0-9_]*:" }
+      ]
+    },
+    "label": {
+      "patterns": [
+        {
+          "name": "entity.name.label.6502-asm",
+          "match": "^\\s*[A-Za-z_][A-Za-z0-9_]*:"
+        }
+      ]
+    },
+    "anonLabel": {
+      "patterns": [
+        { "name": "entity.name.label.anonymous.6502-asm", "match": "^\\s*[+-]:" },
+        { "name": "entity.name.label.numeric.6502-asm", "match": "^\\s*[0-9]+:" }
+      ]
+    },
+    "symbolAssign": {
+      "patterns": [
+          { "name": "meta.symbol.assignment.6502-asm", "match": "^\\s*([A-Za-z_][A-Za-z0-9_]*)(?=\\s*=)" },
+        { "name": "keyword.operator.assignment.6502-asm", "match": "=" }
+      ]
+    },
+    "macro": {
+      "patterns": [
+        { "name": "entity.name.function.macro.6502-asm", "match": "^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s+(?i:MACRO)" },
+        { "name": "entity.name.function.macro.end.6502-asm", "match": "^\\s*(?i:ENDM)" },
+        { "name": "entity.name.function.macro.call.6502-asm", "match": "^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s+(?!(?:\\.(?:byte|word|proc|endproc|segment|import|export|incbin|include|res|org|asciiz|ascii|addr|code|data)\\b))(?=[$#0-9A-Za-z'\\\"])" }
+      ]
+    },
+    "addressing": {
+      "patterns": [
+        { "name": "storage.modifier.addressing.6502-asm", "match": "#(?=\\$|0x|%|[0-9])" },
+        { "name": "storage.modifier.addressing.6502-asm", "match": "\\([A-Za-z0-9$%#, +-]+\\),Y" },
+        { "name": "storage.modifier.addressing.6502-asm", "match": "\\([A-Za-z0-9$%#, +-]+,X\\)" },
+        { "name": "storage.modifier.addressing.6502-asm", "match": "[A-Za-z0-9$%]+,X" },
+        { "name": "storage.modifier.addressing.6502-asm", "match": "[A-Za-z0-9$%]+,Y" }
+      ]
+    },
+    "addressingFine": {
+      "patterns": [
+        { "name": "meta.addressing.immediate.6502-asm", "match": "#(\\$[0-9A-Fa-f]+|0x[0-9A-Fa-f]+|%[01]+|[0-9]+)" },
+        { "match": "(\\()(\\s*)(?:([A-Za-z_][A-Za-z0-9_]*)|(\\$[0-9A-Fa-f]+)|(0x[0-9A-Fa-f]+)|(%[01]+)|([0-9]+))(\\s*)(\\))(\\s*,)(\\s*)(X|Y)",
+          "captures": {
+            "1": { "name": "punctuation.section.parens.begin punctuation.addressing.paren.open.6502-asm" },
+            "2": { "name": "meta.spacing.leading.address" },
+            "3": { "name": "variable.other.readwrite variable.other.address.operand.symbol.6502-asm" },
+            "4": { "name": "constant.numeric.hex constant.numeric.hex.dollar.6502-asm" },
+            "5": { "name": "constant.numeric.hex constant.numeric.hex.0x.6502-asm" },
+            "6": { "name": "constant.numeric.binary.6502-asm" },
+            "7": { "name": "constant.numeric.decimal.6502-asm" },
+            "8": { "name": "meta.spacing.trailing.address" },
+            "9": { "name": "punctuation.section.parens.end punctuation.addressing.paren.close.6502-asm" },
+            "10": { "name": "punctuation.separator.comma punctuation.separator.addressing.comma.6502-asm" },
+            "11": { "name": "meta.spacing.index.address" },
+            "12": { "name": "variable.language.register.index.6502-asm" }
+          }
+        },
+        { "match": "(\\()(\\s*)(?:([A-Za-z_][A-Za-z0-9_]*)|(\\$[0-9A-Fa-f]+)|(0x[0-9A-Fa-f]+)|(%[01]+)|([0-9]+))(\\s*)(,)(\\s*)(X|Y)(\\))",
+          "captures": {
+            "1": { "name": "punctuation.section.parens.begin punctuation.addressing.paren.open.6502-asm" },
+            "2": { "name": "meta.spacing.leading.address" },
+            "3": { "name": "variable.other.readwrite variable.other.address.operand.symbol.6502-asm" },
+            "4": { "name": "constant.numeric.hex constant.numeric.hex.dollar.6502-asm" },
+            "5": { "name": "constant.numeric.hex constant.numeric.hex.0x.6502-asm" },
+            "6": { "name": "constant.numeric.binary.6502-asm" },
+            "7": { "name": "constant.numeric.decimal.6502-asm" },
+            "8": { "name": "meta.spacing.trailing.address" },
+            "9": { "name": "punctuation.separator.comma punctuation.separator.addressing.comma.6502-asm" },
+            "10": { "name": "meta.spacing.index.address" },
+            "11": { "name": "variable.language.register.index.6502-asm" },
+            "12": { "name": "punctuation.section.parens.end punctuation.addressing.paren.close.6502-asm" }
+          }
+        },
+        { "match": "(?:([A-Za-z_][A-Za-z0-9_]*)|(\\$[0-9A-Fa-f]+)|(0x[0-9A-Fa-f]+)|(%[01]+)|([0-9]+))\\s*(,)(\\s*)(X|Y)",
+          "captures": {
+            "1": { "name": "variable.other.readwrite variable.other.address.operand.symbol.6502-asm" },
+            "2": { "name": "constant.numeric.hex constant.numeric.hex.dollar.6502-asm" },
+            "3": { "name": "constant.numeric.hex constant.numeric.hex.0x.6502-asm" },
+            "4": { "name": "constant.numeric.binary.6502-asm" },
+            "5": { "name": "constant.numeric.decimal.6502-asm" },
+            "6": { "name": "punctuation.separator.comma punctuation.separator.addressing.comma.6502-asm" },
+            "7": { "name": "meta.spacing.index.address" },
+            "8": { "name": "variable.language.register.index.6502-asm" }
+          }
+        },
+        { "name": "meta.addressing.zp.6502-asm", "match": "^\\s*[^;]*?\\b(\\$[0-9A-Fa-f]{1,2})\\b" }
+        ,
+        { "comment": "非法索引：任何不是 X/Y 的单字母在逗号后出现","match": "(?i)(,)(\\s*)([A-WZ])\\b",
+          "captures": {
+            "1": { "name": "punctuation.separator.comma punctuation.separator.addressing.comma.6502-asm" },
+            "2": { "name": "meta.spacing.index.address" },
+            "3": { "name": "invalid.illegal.index.register.6502-asm" }
+          }
+        }
+      ]
+    },
+    "dataLabelNoColon": {
+      "patterns": [
+        { "name": "entity.name.label.data.6502-asm", "match": "^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s+(?=\\.(?:byte|word|addr|ascii|asciiz|res)\\b)" }
+      ]
+    },
+    "symbolRef": {
+      "patterns": [
+        { "name": "variable.other.symbol.6502-asm", "match": "(?<![.#])\\b(?!ADC\\b|AND\\b|ASL\\b|BCC\\b|BCS\\b|BEQ\\b|BIT\\b|BMI\\b|BNE\\b|BPL\\b|BRK\\b|BVC\\b|BVS\\b|CLC\\b|CLD\\b|CLI\\b|CLV\\b|CMP\\b|CPX\\b|CPY\\b|DEC\\b|DEX\\b|DEY\\b|EOR\\b|INC\\b|INX\\b|INY\\b|JMP\\b|JSR\\b|LDA\\b|LDX\\b|LDY\\b|LSR\\b|NOP\\b|ORA\\b|PHA\\b|PHP\\b|PLA\\b|PLP\\b|ROL\\b|ROR\\b|RTI\\b|RTS\\b|SBC\\b|SEC\\b|SED\\b|SEI\\b|STA\\b|STX\\b|STY\\b|TAX\\b|TAY\\b|TSX\\b|TXA\\b|TXS\\b|TYA\\b)([A-Za-z_][A-Za-z0-9_]*)\\b" }
+      ]
+    },
+    "ca65Macro": {
+      "patterns": [
+        { "name": "entity.name.function.macro.ca65.6502-asm", "match": "^\\s*\\.macro\\s+([A-Za-z_][A-Za-z0-9_]*)" },
+        { "name": "entity.name.function.macro.ca65.end.6502-asm", "match": "^\\s*\\.endmacro\\b" },
+        { "name": "variable.parameter.macro.ca65.6502-asm", "match": "^\\s*\\.macro\\s+[A-Za-z_][A-Za-z0-9_]*\\s+([A-Za-z_][A-Za-z0-9_]*)(?:(?:,|\\s+)[A-Za-z_][A-Za-z0-9_]*)*" }
+      ]
+    },
+    "ca65MacroRange": {
+      "begin": "^\\s*\\.macro\\b",
+      "beginCaptures": { "0": { "name": "keyword.directive.macro.begin.6502-asm" } },
+      "end": "^\\s*\\.endmacro\\b",
+      "endCaptures": { "0": { "name": "keyword.directive.macro.end.6502-asm" } },
+      "name": "meta.block.macro.ca65.6502-asm",
+      "patterns": [
+        { "include": "#instruction" },
+        { "include": "#macroParam" },
+        { "include": "#number" },
+        { "include": "#string" },
+        { "include": "#comment" }
+      ]
+    },
+    "condition": {
+      "patterns": [
+        { "name": "keyword.control.conditional.6502-asm", "match": "(?i)^\\s*\\.(if|ifdef|ifndef|elseif|else|endif)\\b" }
+      ]
+    },
+    "expressionOp": {
+      "patterns": [
+        { "name": "keyword.operator.arithmetic.6502-asm", "match": "[+\\-*/]" },
+        { "name": "keyword.operator.bitwise.6502-asm", "match": "[&|^]" },
+        { "name": "keyword.operator.comparison.6502-asm", "match": "==|!=|<=|>=|<|>" },
+        { "name": "keyword.operator.logical.6502-asm", "match": "(?i)\\b(AND|OR|NOT)\\b" },
+        { "name": "punctuation.group.6502-asm", "match": "[()<>]" }
+      ]
+    },
+    "macroParam": {
+      "patterns": [
+        { "name": "variable.parameter.macro.6502-asm", "match": "(?<![A-Za-z0-9_])\\?[0-9]+" },
+        { "name": "variable.parameter.macro.6502-asm", "match": "\\\\[0-9]+" }
+      ]
+    }
+  }
+}

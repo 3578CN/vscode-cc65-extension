@@ -1,0 +1,77 @@
+{
+  "name": "vscode-cc65-compiler",
+  "displayName": "cc65 编译",
+  "description": "在资源管理器右键添加“编译此文件”，使用 cc65（ca65 + ld65）编译 .asm 文件。",
+  "version": "1.0.2",
+  "publisher": "chengbin",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "cc65",
+    "ca65",
+    "ld65",
+    "6502",
+    "asm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZhenHena/vscode-cc65-compiler"
+  },
+  "bugs": {
+    "url": "https://github.com/ZhenHena/vscode-cc65-compiler/issues"
+  },
+  "homepage": "https://www.3578.cn",
+  "icon": "images/icon.png",
+  "main": "extension.js",
+  "activationEvents": [
+    "onCommand:cc65.compileAsm"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "cc65.compileAsm",
+        "title": "使用 cc65 编译 ASM 文件"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "cc65.compileAsm",
+          "when": "resourceFilename =~ /\\.([aA][sS][mM])$/",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "cc65 Asm Compiler",
+      "properties": {
+        "cfgPath": {
+          "type": "string",
+          "default": "",
+          "description": "默认 ld65 链接脚本路径（相对于工作区或绝对路径），留空则使用 .vscode/cc65.cfg 或提示输入。"
+        },
+        "ca65Path": {
+          "type": "string",
+          "default": "ca65",
+          "description": "ca65 可执行文件路径或命令（默认 'ca65'，需在 PATH 中）。"
+        },
+        "ld65Path": {
+          "type": "string",
+          "default": "ld65",
+          "description": "ld65 可执行文件路径或命令（默认 'ld65'，需在 PATH 中）。"
+        },
+        "keepObj": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否保留中间 .o 文件（默认 false，会删除 .o）。"
+        }
+      }
+    }
+  }
+}

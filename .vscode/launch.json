@@ -1,0 +1,42 @@
+{
+    // See https://go.microsoft.com/fwlink/?linkid=830387 for more about debugging VS Code extensions
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "调试 6502 汇编语法插件",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}/vscode-6502-asm-syntax"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/vscode-6502-asm-syntax/out/**/*.js"
+            ]
+        },
+        {
+            "name": "调试 cc65 编译器插件",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}/vscode-cc65-compiler"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/vscode-cc65-compiler/out/**/*.js"
+            ]
+        },
+        {
+            "name": "调试选中行状态插件",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}/vscode-selected-lines-status"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/vscode-selected-lines-status/out/**/*.js"
+            ]
+        }
+    ]
+}

@@ -3,7 +3,7 @@
   "displayName": "行数选择计数",
   "publisher": "chengbin",
   "description": "在状态栏显示当前选中的行数（支持多选区域）",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "engines": {
     "vscode": "^1.60.0"

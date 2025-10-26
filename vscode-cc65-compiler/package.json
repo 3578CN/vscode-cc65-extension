@@ -2,7 +2,7 @@
   "name": "vscode-cc65-compiler",
   "displayName": "cc65 编译",
   "description": "在资源管理器右键添加“编译此文件”，使用 cc65（ca65 + ld65）编译 .asm 文件。",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "chengbin",
   "license": "MIT",
   "engines": {
@@ -35,7 +35,7 @@
     "commands": [
       {
         "command": "cc65.compileAsm",
-        "title": "使用 cc65 编译 ASM 文件"
+        "title": "编译 ASM 文件"
       }
     ],
     "menus": {
@@ -51,25 +51,30 @@
       "type": "object",
       "title": "cc65 Asm Compiler",
       "properties": {
-        "cfgPath": {
+        "cc65.cfgPath": {
           "type": "string",
           "default": "",
           "description": "默认 ld65 链接脚本路径（相对于工作区或绝对路径），留空则使用 .vscode/cc65.cfg 或提示输入。"
         },
-        "ca65Path": {
+        "cc65.ca65Path": {
           "type": "string",
           "default": "ca65",
           "description": "ca65 可执行文件路径或命令（默认 'ca65'，需在 PATH 中）。"
         },
-        "ld65Path": {
+        "cc65.ld65Path": {
           "type": "string",
           "default": "ld65",
           "description": "ld65 可执行文件路径或命令（默认 'ld65'，需在 PATH 中）。"
         },
-        "keepObj": {
+        "cc65.keepObj": {
           "type": "boolean",
           "default": false,
           "description": "是否保留中间 .o 文件（默认 false，会删除 .o）。"
+        },
+        "cc65.outputExtension": {
+          "type": "string",
+          "default": "bin",
+          "description": "编译生成的二进制文件扩展名（默认 'bin'，仅填写不带前导点，例如 'bin' 或 'exe'）。"
         }
       }
     }

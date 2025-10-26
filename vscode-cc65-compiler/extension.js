@@ -25,17 +25,17 @@ function activate(context) {
         return;
       }
 
-  if (path.extname(fileUri.fsPath).toLowerCase() !== '.asm') {
+      if (path.extname(fileUri.fsPath).toLowerCase() !== '.asm') {
         output.appendLine('只支持 .asm 文件。');
         output.show(true);
         return;
       }
 
-  // Read configuration from settings
-  const config = vscode.workspace.getConfiguration('cc65');
-  const workspaceFolders = vscode.workspace.workspaceFolders || [];
-  const defaultCfg = workspaceFolders.length ? path.join(workspaceFolders[0].uri.fsPath, '.vscode', 'cc65.cfg') : '';
-  const configuredCfg = config.get('cfgPath', '');
+      // Read configuration from settings
+      const config = vscode.workspace.getConfiguration('cc65');
+      const workspaceFolders = vscode.workspace.workspaceFolders || [];
+      const defaultCfg = workspaceFolders.length ? path.join(workspaceFolders[0].uri.fsPath, '.vscode', 'cc65.cfg') : '';
+      const configuredCfg = config.get('cfgPath', '');
       let cfgPath = '';
       if (configuredCfg && configuredCfg.length) {
         cfgPath = configuredCfg;
@@ -50,18 +50,22 @@ function activate(context) {
         cfgPath = defaultCfg;
       }
 
-  const asmPath = fileUri.fsPath;
+      const asmPath = fileUri.fsPath;
       const asmDir = path.dirname(asmPath);
       const asmBase = path.basename(asmPath, '.asm');
       const objFile = `${asmBase}.o`;
-      const exeFile = `${asmBase}.exe`;
+      // 获取输出文件扩展名，默认 'bin'（设置时只填写不带前导点的扩展名，例如 'bin' 或 'exe'）
+      const outputExtRaw = config.get('outputExtension', 'bin');
+      // 去掉可能的前导点，然后加上点以构造实际文件扩展名
+      const outputExt = (typeof outputExtRaw === 'string' && outputExtRaw.length > 0) ? ('.' + outputExtRaw.replace(/^\./, '')) : '.bin';
+      const exeFile = `${asmBase}${outputExt}`;
       // Use child_process to run compilers quietly and capture their output
       const cp = require('child_process');
       const fs = require('fs');
 
-  const ca65cmd = config.get('ca65Path', 'ca65');
-  const ld65cmd = config.get('ld65Path', 'ld65');
-  const keepObj = config.get('keepObj', false);
+      const ca65cmd = config.get('ca65Path', 'ca65');
+      const ld65cmd = config.get('ld65Path', 'ld65');
+      const keepObj = config.get('keepObj', false);
 
       // resolve cfgPath relative to workspace if not absolute
       if (cfgPath && cfgPath.length && !path.isAbsolute(cfgPath)) {
@@ -86,8 +90,8 @@ function activate(context) {
         });
       }
 
-  // Run ca65
-  output.appendLine(`运行: ${ca65cmd} ${asmPath}`);
+      // Run ca65
+      output.appendLine(`运行: ${ca65cmd} ${asmPath}`);
       const ca65Result = await runCommand(ca65cmd, [asmPath]);
       if (ca65Result.stdout) output.appendLine(ca65Result.stdout);
       if (ca65Result.stderr) output.appendLine(ca65Result.stderr);
@@ -104,7 +108,7 @@ function activate(context) {
         ldArgs.push('-C', cfgPath);
       }
       ldArgs.push(objFile, '-o', exeFile);
-  output.appendLine(`运行: ${ld65cmd} ${ldArgs.join(' ')}`);
+      output.appendLine(`运行: ${ld65cmd} ${ldArgs.join(' ')}`);
       const ld65Result = await runCommand(ld65cmd, ldArgs);
       if (ld65Result.stdout) output.appendLine(ld65Result.stdout);
       if (ld65Result.stderr) output.appendLine(ld65Result.stderr);
@@ -120,8 +124,8 @@ function activate(context) {
         try { fs.unlinkSync(path.join(asmDir, objFile)); } catch (e) { /* ignore */ }
       }
 
-  output.appendLine('编译成功。');
-  output.show(false);
+      output.appendLine('编译成功。');
+      output.show(false);
 
     } catch (err) {
       output.appendLine('编译过程中出错：' + err.message);
@@ -139,7 +143,7 @@ function quotePath(p) {
   return p;
 }
 
-function deactivate() {}
+function deactivate() { }
 
 module.exports = {
   activate,

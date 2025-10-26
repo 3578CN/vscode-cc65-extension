@@ -2,14 +2,14 @@
   "name": "vscode-6502-asm-syntax",
   "displayName": "6502汇编语法高亮",
   "description": "为 6502 汇编语言（.asm/.65s）文件提供语法高亮。支持常用指令、伪指令、寄存器和注释。",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "chengbin",
   "license": "MIT",
   "engines": {
     "vscode": ">=1.50.0"
   },
   "categories": ["Programming Languages"],
-  "icon": "icon.png",
+  "icon": "images/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/ZhenHena/vscode-6502-asm-syntax.git"
